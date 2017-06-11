@@ -1,0 +1,320 @@
+<HTML>
+<HEAD>
+<SCRIPT>
+function countWords(str){
+   var count = 0;
+   var focus_count = 0, img_count = 0, e_links=0,i_links=0;
+   e_links = str.match(/<a href="http/g);
+   i_links = str.match(/<a href/g);
+   words = str.split(/\s+/);
+   var focus = prompt("Enter focus word","dj");
+    for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] != ""){
+          count += 1;
+          if(words[i] == focus)
+          focus_count++;
+          if(words[i] == "<img")
+          img_count++;
+
+         }
+    }
+
+
+    var p_count=0;
+for (i=0 ; i < words.length ; i++){
+       if (words[i] != "" && words[i] == "<p>"){
+          while(words[i] != "</p>"){
+            p_count +=1;
+            i +=1;
+          }
+          p_count -= 1;
+      break;
+         }
+    }
+
+    for (i=0 ; i < words.length ; i++){
+       if (words[i] == "<p"){
+       for(k=i+1;k<words.length;k++){
+        if(words[k] == ">")
+        break;
+        }
+
+       for(j=k+1;j<words.length;j++){
+          p_count += 1;
+          if(words[j] == "</p>"){
+          p_count -= 1;
+          break;}
+          }
+       }
+    }
+
+    var focus_count11=0;
+     for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] == "<title>"){
+
+       for(j=i+1;j<words.length;j++){
+           //title_count += 1;
+
+          if(words[j] == focus){
+            focus_count11 = 1;
+          }
+          if(words[j] == "</title>")
+          break;
+          }
+       }
+    }
+
+    var focus_para1=0;
+    for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] == "<p"){
+       for(k=i+1;k<words.length;k++){
+        if(words[k] == ">")
+        break;
+        }
+
+       for(j=k+1;j<words.length;j++){
+          count += 1;
+  if(words[j]== focus)
+         focus_para1++;
+  else if(words[j]== "</p>")
+         break;
+          }
+  break;
+       }
+    }
+
+   var s=0;
+    for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] == "<title>"){
+       for(k=i+1;k<words.length;k++){
+    if(words[k] == "</title>")
+        break;
+        s += words[k].length;
+
+        }
+        }
+        }
+var focus_count1 =0, focus_count_str=0,focus_count_str1=0;
+ for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] == "<meta"){
+       // count+=1;
+       for(k=i+1;k<words.length;k++){
+        if(words[k] == "name="){focus_count1+=1; break;}
+
+        }
+
+      for(j=k+1;j<words.length;j++){
+          if(words[j] == "content="){focus_count_str+=1; break;}
+          else
+            break;
+        }
+
+        for(l=j+1;l<words.length;l++){
+            focus_count_str1+=1;
+          if(words[l] == "/>")
+          break;
+        }
+
+       }
+    }
+
+
+var focus_count111 =0, focus_count_str=0,focus_count_str2=0;
+ for (i=0 ; i < words.length ; i++){
+       // inner loop -- do the count
+       if (words[i] == "<meta"){
+       // count+=1;
+       for(k=i+1;k<words.length;k++){
+        if(words[k] == "name="){focus_count111+=1; break;}
+
+        }
+
+      for(j=k+1;j<words.length;j++){
+          if(words[j] == "content="){focus_count_str+=1; break;}
+          else
+            break;
+        }
+
+        for(l=j+1;l<words.length;l++){
+          if(words[l] == focus)
+            focus_count_str2+=1;
+          if(words[l] == "/>")
+          break;
+        }
+
+       }
+    }
+
+    document.theForm.results1.value = (focus_count/p_count*100);
+   (focus_count/p_count*100) >=2.5 ? document.theForm.results11.value = "Your keyword density is ok" : document.theForm.results11.value = "Your keyword density is low. required (2.5%)";
+   document.theForm.results2.value = img_count;
+   img_count >=1 && img_count <=5 ? document.theForm.results22.value = "Your image limit is ok" : document.theForm.results22.value = "Your no of image is out of limit . required (1-5)";
+   document.theForm.results3.value =e_links.length;
+   e_links.length >=1 ? document.theForm.results33.value = "That's good." : document.theForm.results33.value = "You have no external links";
+   document.theForm.results4.value =i_links.length-e_links.length;
+   i_links.length - e_links.length >=1 ? document.theForm.results44.value = "That's good." : document.theForm.results44.value = "You have no Internal links";
+   document.theForm.results5.value = focus_count11 == 1 ? "Yes" : "No";
+  focus_count11 == 1 ? document.theForm.results55.value = "Good" : document.theForm.results55.value = "Add at least 1 focus word ";
+   document.theForm.results6.value =p_count;
+   p_count >=300 ? document.theForm.results66.value = "That's good." : document.theForm.results66.value = "Your content must have even 300 words";
+  document.theForm.results7.value = focus_para1;
+   (focus_para1 >=1) ? document.theForm.results77.value = "That's fine" : document.theForm.results77.value = "No focus word found in 1st paragraph";
+
+      document.theForm.results8.value = s;
+   ((s <=150) && (s>=1))? document.theForm.results88.value = "That's fine" : document.theForm.results88.value = "Exeed limit";
+
+
+      document.theForm.results9.value = focus_count_str1;
+   ((focus_count_str1 <=150) && (focus_count_str1>=1))? document.theForm.results99.value = "That's fine" : document.theForm.results99.value = "Exeed limit";
+
+       document.theForm.results10.value = focus_count_str2;
+   (focus_count_str2 >=1)? document.theForm.results1010.value = "That's fine" : document.theForm.results1010.value = "No focus key word in meta content";
+
+}
+</SCRIPT>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<style>
+TABLE.REL{
+  position:relative;}
+#WE{
+  background:TRANSPARENT;
+  color: red;
+}
+#WE1{
+  background:TRANSPARENT;
+  font-weight: bolder;
+
+}
+#we2{
+  opacity:0.6;
+}
+
+</style>
+
+<style type="text/css">
+      textarea, iframe {
+          border: 2px solid #ddd;
+          height: 500px;
+          width: 100%;
+      }
+      </style>
+</HEAD>
+
+<BODY background="angle.png"><b>
+<nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><h4>SEO Assistant</h4></a>
+
+        <div class="navbar-header navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="Contacts.html">ContactUs</a></li>
+            </ul>
+        </div>
+        </div>
+
+    </nav>
+
+
+<div class="col-sm-6">
+<FORM name="theForm1">
+<h3>Enter Your code</h3>
+<TEXTAREA name="inStr" rows="20" cols="80" id="we2">
+</TEXTAREA>
+<br/>
+<br>
+<p>
+<center>&emsp;&emsp; &emsp;&emsp;&emsp;&emsp;
+<INPUT type=button value="Submit" onClick="countWords(document.theForm1.inStr.value)";> &emsp;
+<input onclick="runCode();" type="button" value="Run Code"></center>
+</p>
+</FORM></div>
+
+<div class="col-sm-6">
+<!--<table width="100%" border="0" cellspacing="5" cellpadding="5">
+            <tr>
+                <td width="50%" scope="col">&nbsp;</td>
+                <td width="50%" align="left" scope="col"> -->
+                <br>
+
+
+
+
+             <!--   <td>
+                    <form>
+                        <strong>Code</strong>
+                        <textarea name="sourceCode" id="sourceCode">
+<html>
+<head>
+<title>Hello</title>
+</head>
+<body>
+<h1>Hello!</h1>
+<p>Write HTML, CSS or JavaScript code here and click 'Run Code'.</p>
+</body>
+</html>
+                        </textarea>
+                    </form>-->
+                <br>
+               <strong>Output</strong><iframe name="targetCode" id="targetCode"></iframe></td>
+
+
+
+        <script type="text/javascript">
+            function runCode()
+            {
+                var content = document.getElementById('we2').value;
+                var iframe = document.getElementById('targetCode');
+                iframe = (iframe.contentWindow) ? iframe.contentWindow : (iframe.contentDocument.document) ? iframe.contentDocument.document : iframe.contentDocument;
+                iframe.document.open();
+                iframe.document.write(content);
+                iframe.document.close();
+                return false;
+            }
+            runCode();
+        </script>
+</div>
+
+
+<br><br>
+<div class="col-sm-12" align="center">
+<FORM name="theForm">
+<INPUT type="reset" name="theButton" >
+<br>
+<TABLE BORDER="0" CLASS="REL" >
+<font color="blue">
+<TR><TH WIDTH="200"></TH><TH WIDTH="50" height="20"><CENTER><b>Results</b></CENTER></TH><TH WIDTH="300"><CENTER><b>comment</b></CENTER></TH></TR><br/>
+<TR ><TD height="40"><font color="blue"> <b>Keyword density</b></font></TD><TD><input type="text" name=results1 id= "WE1" size="4" color = "red"></TD><TD><input type="text" name=results11 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of Images</b></font></TD><TD> <input type="text" name=results2 id= "WE1" size="4"></TD><TD><input type="text" name=results22 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of external links</b></font></TD><TD> <input type="text" name=results3 id= "WE1" size="4"></TD><TD><input type="text" name=results33 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of internal links</b></font></TD><TD> <input type="text" name=results4 id= "WE1" size="4"></TD><TD><input type="text" name=results44 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>Focus keyword found in title</b></font></TD><TD><input type="text" name=results5 id= "WE1" size="4"></TD><TD><input type="text" name=results55 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of words contain</b></font></TD><TD><input type="text" name=results6 id= "WE1" size="4"></TD><TD><input type="text" name=results66 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>Focus keyword found in 1st paragraph</b></font></TD><TD><input type="text" name=results7 id= "WE1" size="4"></TD><TD><input type="text" name=results77 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of charactors in title</b></font></TD><TD><input type="text" name=results8 id= "WE1" size="4"></TD><TD><input type="text" name=results88 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of words in meta content</b></font></TD><TD><input type="text" name=results9 id= "WE1" size="4"></TD><TD><input type="text" name=results99 id= "WE" size="35"></TD></TR>
+
+<TR><TD height="40"><font color="blue"><b>No of focus words in meta content</b></font></TD><TD><input type="text" name=results10 id= "WE1" size="4"></TD><TD><input type="text" name=results1010 id= "WE" size="35"></TD></TR>
+
+
+</FORM>
+</font>
+</TABLE></b></div>
+<script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</BODY>
+</HTML>
